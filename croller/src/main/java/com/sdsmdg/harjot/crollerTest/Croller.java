@@ -71,15 +71,18 @@ public class Croller extends View {
 
     RectF oval;
 
-    private onProgressChangedListener mProgressChangeListener;
     private OnCrollerChangeListener mCrollerChangeListener;
 
     public interface onProgressChangedListener {
         void onProgressChanged(int progress);
     }
 
-    public void setOnProgressChangedListener(onProgressChangedListener mProgressChangeListener) {
-        this.mProgressChangeListener = mProgressChangeListener;
+    public interface OnCrollerChangeListener {
+        void onProgressChanged(Croller croller, int progress);
+
+        void onStartTrackingTouch(Croller croller);
+
+        void onStopTrackingTouch(Croller croller);
     }
 
     public void setOnCrollerChangeListener(OnCrollerChangeListener mCrollerChangeListener) {
@@ -150,23 +153,7 @@ public class Croller extends View {
             AssetManager assetMgr = getContext().getAssets();
             plainLabel = Typeface.createFromAsset(assetMgr, getLabelFont());
         }
-
-        switch (getLabelStyle()) {
-            case 0:
-                textPaint.setTypeface(plainLabel);
-                break;
-            case 1:
-                textPaint.setTypeface(Typeface.create(plainLabel, Typeface.BOLD));
-                break;
-            case 2:
-                textPaint.setTypeface(Typeface.create(plainLabel, Typeface.ITALIC));
-                break;
-            case 3:
-                textPaint.setTypeface(Typeface.create(plainLabel, Typeface.BOLD_ITALIC));
-                break;
-
-        }
-
+        textPaint.setTypeface(Typeface.create(plainLabel, getLabelStyle()));
     }
 
     private void initXMLAttrs(Context context, AttributeSet attrs) {
@@ -264,12 +251,6 @@ public class Croller extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        if (mProgressChangeListener != null)
-            mProgressChangeListener.onProgressChanged((int) (deg - 2));
-
-        if (mCrollerChangeListener != null)
-            mCrollerChangeListener.onProgressChanged(this, (int) (deg - 2));
 
         if (isEnabled) {
             circlePaint2.setColor(progressPrimaryColor);
@@ -508,6 +489,11 @@ public class Croller extends View {
 
             downdeg = currdeg;
 
+
+            if (mCrollerChangeListener != null)
+            {
+                mCrollerChangeListener.onProgressChanged(this, (int) (deg - 2));
+            }
             invalidate();
             return true;
 

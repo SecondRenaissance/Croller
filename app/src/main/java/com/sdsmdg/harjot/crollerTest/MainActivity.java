@@ -1,14 +1,16 @@
 package com.sdsmdg.harjot.crollerTest;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.widget.CompoundButton;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 public class MainActivity extends AppCompatActivity {
 
     private Croller croller;
+    private static String TAG = "Test";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         croller = findViewById(R.id.croller);
+        croller.setProgress(40);
         SwitchCompat enableSwitch = findViewById(R.id.enableSwitch);
 
         enableSwitch.setChecked(croller.isEnabled());
@@ -34,20 +37,20 @@ public class MainActivity extends AppCompatActivity {
 //        croller.setBackCircleRadius(300);
 
 
-        croller.setOnCrollerChangeListener(new OnCrollerChangeListener() {
+        croller.setOnCrollerChangeListener(new Croller.OnCrollerChangeListener() {
             @Override
             public void onProgressChanged(Croller croller, int progress) {
-
+                Log.d(TAG, "onProgressChanged: " + progress);
             }
 
             @Override
             public void onStartTrackingTouch(Croller croller) {
-                Toast.makeText(MainActivity.this, "Start", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onStartTrackingTouch: ");
             }
 
             @Override
             public void onStopTrackingTouch(Croller croller) {
-                Toast.makeText(MainActivity.this, "Stop", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onStopTrackingTouch: ");
             }
         });
 
