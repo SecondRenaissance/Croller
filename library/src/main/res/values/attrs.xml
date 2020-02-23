@@ -2,7 +2,8 @@
 <resources>
     <declare-styleable name="Croller">
         <attr name="enabled" format="boolean" />
-        <attr name="start_progress" format="integer" />
+        <attr name="progress" format="integer" />
+        <attr name="floatProgress" format="float" />
         <attr name="label" format="string" />
         <attr name="back_circle_color" format="color" />
         <attr name="back_circle_disable_color" format="color" />
@@ -17,12 +18,7 @@
         <attr name="label_size" format="dimension" />
         <attr name="label_color" format="color" />
         <attr name="label_font" format="string" />
-        <attr name="label_style" format="enum" >
-            <enum name="normal" value="0"/>
-            <enum name="bold" value="1"/>
-            <enum name="italic" value="2"/>
-            <enum name="bold_italic" value="3"/>
-        </attr>
+        <attr name="label_style" format="integer" />
         <attr name="label_disabled_color" format="color" />
         <attr name="indicator_width" format="float" />
         <attr name="is_continuous" format="boolean" />

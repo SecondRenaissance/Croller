@@ -1,4 +1,4 @@
-package com.sdsmdg.harjot.crollerTest;
+package com.sdsmdg.harjot.croller;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -13,8 +13,7 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.sdsmdg.harjot.croller.R;
-import com.sdsmdg.harjot.crollerTest.utilities.Utils;
+import com.sdsmdg.harjot.croller.utilities.Utils;
 
 public class Croller extends View {
 
@@ -73,20 +72,24 @@ public class Croller extends View {
 
     private OnCrollerChangeListener mCrollerChangeListener;
 
-    public interface onProgressChangedListener {
-        void onProgressChanged(int progress);
+    public void setOnCrollerChangeListener(OnCrollerChangeListener mCrollerChangeListener) {
+        this.mCrollerChangeListener = mCrollerChangeListener;
+    }
+
+    public void setOnFloatProgressChangedListener(OnFloatProgressChangedListener onFloatProgressChangedListener) {
+        this.onFloatProgressChangedListener = onFloatProgressChangedListener;
+    }
+
+    private OnFloatProgressChangedListener onFloatProgressChangedListener;
+
+    public interface OnFloatProgressChangedListener {
+        void onFloatProgressChanged(float progress);
     }
 
     public interface OnCrollerChangeListener {
         void onProgressChanged(Croller croller, int progress);
-
         void onStartTrackingTouch(Croller croller);
-
         void onStopTrackingTouch(Croller croller);
-    }
-
-    public void setOnCrollerChangeListener(OnCrollerChangeListener mCrollerChangeListener) {
-        this.mCrollerChangeListener = mCrollerChangeListener;
     }
 
     public Croller(Context context) {
@@ -160,7 +163,6 @@ public class Croller extends View {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Croller);
 
         setEnabled(a.getBoolean(R.styleable.Croller_enabled, true));
-        setProgress(a.getInt(R.styleable.Croller_start_progress, 1));
         setLabel(a.getString(R.styleable.Croller_label));
 
         setBackCircleColor(a.getColor(R.styleable.Croller_back_circle_color, backCircleColor));
@@ -195,6 +197,9 @@ public class Croller extends View {
         setBackCircleRadius(a.getFloat(R.styleable.Croller_back_circle_radius, -1));
         setProgressRadius(a.getFloat(R.styleable.Croller_progress_radius, -1));
         setAntiClockwise(a.getBoolean(R.styleable.Croller_anticlockwise, false));
+
+        setProgress(a.getInt(R.styleable.Croller_progress, 1));
+        setProgress((int) (min + (max - min) * a.getFloat(R.styleable.Croller_progress, 0)));
         a.recycle();
     }
 
@@ -493,6 +498,10 @@ public class Croller extends View {
             if (mCrollerChangeListener != null)
             {
                 mCrollerChangeListener.onProgressChanged(this, (int) (deg - 2));
+            }
+            if (onFloatProgressChangedListener != null)
+            {
+                onFloatProgressChangedListener.onFloatProgressChanged((deg - 2 - min) / (max - min));
             }
             invalidate();
             return true;
