@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.SecondRenaissance'
+version = '1.0.10'
 
 ext {
     bintrayRepo = 'Croller'
@@ -15,7 +16,7 @@ ext {
     siteUrl = 'https://github.com/harjot-oberai/Croller'
     gitUrl = 'https://github.com/harjot-oberai/Croller.git'
 
-    libraryVersion = '1.0.8'
+    libraryVersion = version
 
     developerId = 'harjot-oberai'
     developerName = 'Harjot Singh Oberai'
@@ -25,8 +26,6 @@ ext {
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
     allLicenses = ["Apache-2.0"]
 }
-
-version = '1.0.1'
 
 android {
     dataBinding {
